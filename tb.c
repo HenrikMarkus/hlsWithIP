@@ -1,8 +1,6 @@
 #include "intsort.h"
 #include <stdio.h>
 
-static uint8_t value_reg[]= {'3','6','1','8','\n'};
-
 int main()
 {
     ArrayWrapper myWrapper = { {0} };
@@ -10,23 +8,19 @@ int main()
     myWrapper.val_reg[1] = '6';
     myWrapper.val_reg[2] = '1';
     myWrapper.val_reg[3] = '8';
-    myWrapper.val_reg[4] = '\n';
-    //uint8_t in = myWrapper;
-    //printf("Array first address %u \n", &value_reg[0]);
-    //printf("Array first element %u \n", value_reg[0]);
-	uint8_t out;
-    printf("First Value %u \n", myWrapper.val_reg[0]);
-    printf("Last Value %u \n", myWrapper.val_reg[4]);
+    myWrapper.val_reg[4] = '2';
+    myWrapper.val_reg[5] = '9';
+    myWrapper.val_reg[6] = '0';
+    myWrapper.val_reg[7] = '8';    
+    myWrapper.val_reg[8] = '\r';
 	printf("\n Output: ");
     myWrapper = intsort(myWrapper);
-    printf("First Value %u \n", myWrapper.val_reg[0]);
-    //printf("%c \n Starting with real values: \n", (char)out);
     uint8_t i = 0;
     
-    /*while (*(in+i) != '\n') {
-        printf("%04x ",*(in+i));
+    while (myWrapper.val_reg[i] != 13) {
+        printf("%u ",myWrapper.val_reg[i]);
         i++;
-    }*/
+    }
 	printf("\n");
 	return 0;
 }

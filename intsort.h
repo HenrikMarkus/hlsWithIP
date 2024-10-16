@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 typedef struct {
-    uint8_t val_reg[5];
+    uint8_t val_reg[10];
 } ArrayWrapper;
 
 ArrayWrapper intsort(ArrayWrapper input);
