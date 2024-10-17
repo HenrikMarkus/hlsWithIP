@@ -17,7 +17,7 @@ void intsort( const uint8_t input, uint8_t* output )
         }
     }
     if (input != 13) { // Recieve numbers until receiving Enter = 13 in Ascii. Insert element directly into existing sorted array.
-        int j = 9;
+        int j = N-1;
         while(array[j] == 0 && j >= 0){ // finding the last element in the array, 0 is not an element since 0 in ascii = 48
             j--;
         }
@@ -29,10 +29,10 @@ void intsort( const uint8_t input, uint8_t* output )
         *output = '!'; // send useless ouput, since an output is required for it to work
     }else {
         int j = 0;
-        while( j < 10 && array[j] == 0){ // finding the first element that needs to be printed
+        while( j < N && array[j] == 0){ // finding the first element that needs to be printed
             j++;
         }
-        if (j == 10){
+        if (j == N){
             *output = '#';
         }else{
             *output = array[j];
