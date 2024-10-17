@@ -26,6 +26,7 @@ void intsort( const uint8_t input, uint8_t* output )
             j = j - 1;
         }
         array[j+1] = input;
+        *output = '!'; // send useless ouput, since an output is required for it to work
     }else {
         int j = 0;
         while( j < 10 && array[j] == 0){ // finding the first element that needs to be printed
