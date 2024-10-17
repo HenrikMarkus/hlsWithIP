@@ -3,13 +3,9 @@
 #include "xil_printf.h"
 #include "xparameters.h"
 
-typedef struct {
-    uint8_t val_reg[10];
-} ArrayWrapper;
-
 int main()
 {
-    print("\n\rINTSORT Filter\n\r>");
+    print("\n\r Enter your unsorted numbers. Confirm starting the sorting with Enter. Maximum length 32.\n\r");
 
     XIntsort intsort =
     {
@@ -28,37 +24,40 @@ int main()
 
     XIntsort_DisableAutoRestart(&intsort);
     
-    uint8_t i = 0;
-    ArrayWrapper myWrapper = { {0} };
-    ArrayWrapper mySortedWrapper = { {0} };
-    while(1){
-        while (1) {
-            myWrapper.val_reg[i] = inbyte();
-            if(myWrapper.val_reg[i] == 13){
-                break;
-            };
-            i++;
-        }
-        if(XIntsort_IsIdle(&intsort))
-        {
-            XIntsort_Set_input_r(&intsort, myWrapper);
-            XIntsort_Start(&intsort);
+    int userInput = 1;
 
-            while(!XIntsort_IsDone(&intsort));
-            
-            mySortedWrapper = XIntsort_Get_output_r(&intsort);
-            //print("\n\rOutputValue:\n\r>");
-            //print(val);
-        }
-        i = 0;
-        print("\n\rOutByteValues:\n\r>");
-        while (mySortedWrapper.val_reg[i] != 13) {
-            outbyte(mySortedWrapper.val_reg[i]);
-            i++;
-        }
-        print("\n");
+    if(XIntsort_IsIdle(&intsort)){
+        XIntsort_Set_input_r(&intsort, '?'); // Reset the array to 0 by sending '?'.
+        XIntsort_Start(&intsort);
     }
 
+    while(1)
+    {
+        const char c = inbyte();
+        if(c == '\r'){
+            userInput = 0;
+        }
+        if(userInput == 1){ // case for sending values to be sorted
+            if(XIntsort_IsIdle(&intsort)){
+                XIntsort_Set_input_r(&intsort, c);
+                XIntsort_Start(&intsort);
+            }
+        }else{ // receiving and printing sorted array
+            while(1){
+                if(XIntsort_IsIdle(&intsort)){
+                    XIntsort_Set_input_r(&intsort, '\r');
+                    XIntsort_Start(&intsort);
+                    while(!XIntsort_IsDone(&intsort));
+                    const uint8_t outputvalue = XIntsort_Get_output_r(&intsort);
+                    if(outputvalue == '#'){
+                        userInput = 1;
+                        break;
+                    }
+                    outbyte(outputvalue);
+                }
+            }
+        }
+    }
     cleanup_platform();
     return 0;
 }
