@@ -3,10 +3,7 @@
 #define INTSORT_H
 
 #include <stdint.h>
-typedef struct {
-    uint8_t val_reg[10];
-} ArrayWrapper;
 
-ArrayWrapper intsort(ArrayWrapper input);
+void intsort( const uint8_t input, uint8_t* output );
 
 #endif
