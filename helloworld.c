@@ -31,8 +31,7 @@ int main()
         XIntsort_Start(&intsort);
     }
 
-    while(1)
-    {
+    while(1){
         const char c = inbyte();
         if(c == '\r'){
             userInput = 0;
